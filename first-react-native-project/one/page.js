@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 
 import videoDetail from './videoDetail'
+import musicDetail from './musicDetail'
 
 var video_url = "http://baobab.wandoujia.com/api/v1/videos?start=0&num=10&categoryName=旅行&strategy=shareCount";
 var music_url = "http://mobile.ximalaya.com/mobile/discovery/v2/category/keyword/albums?calcDimension=hot&categoryId=2&device=iPhone&keywordId=115&pageId=1&pageSize=20&statEvent=pageview%2Fcategory%40%E9%9F%B3%E4%B9%90&statModule=%E9%9F%B3%E4%B9%90&statPage=tab%40%E5%8F%91%E7%8E%B0_%E5%88%86%E7%B1%BB&status=0&version=5.4.33";
@@ -168,13 +169,20 @@ class page extends Component {
                 description: info.description
             },
             component: videoDetail,
-            // translucent: false
         });
     }
 
     //onPressMusicItem
-    onPressMusicItem() {
-        alert("music");
+    onPressMusicItem(info) {
+        this.props.navigator.push({
+            title: '专辑详情',
+            passProps: {
+                id: info.id,
+                albumId: info.albumId,
+                trackId: info.trackId
+            },
+            component: musicDetail,
+        });
     }
 
 }

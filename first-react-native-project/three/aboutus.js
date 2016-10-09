@@ -62,18 +62,3 @@ var styles = StyleSheet.create({
 
 module.exports = myInfo;
 
-
-// <View style={{flex:1}}>
-//     <Image style={{height:280}} source={{uri: back_image}}>
-//         <Image style={{height:50,width:50,alignSelf:'center',marginTop:120}} source={require('../images/play.png')}></Image>
-//     </Image>
-// </View>
-// <View style={{flex:1.2}}>
-//     <Image style={{height:350}} source={{uri: back_image}}>
-//         <BlurView blurType="light" style={{height:350}}>
-//             <Text style={styles.title_text}>{this.props.title} | {this.props.categoty}</Text>
-//             <View style={styles.line_view}></View>
-//             <Text style={[styles.title_text, {marginRight:20}]}>{this.props.description}</Text>
-//         </BlurView>
-//     </Image>
-// </View>
