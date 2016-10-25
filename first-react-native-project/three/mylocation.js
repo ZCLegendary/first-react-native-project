@@ -4,34 +4,92 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {Image, MapView, StatusBar, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import Util from '../Util';
-import Icon from 'react-native-vector-icons/Ionicons';
+import MapView from 'react-native-maps';
+// import Icon from 'react-native-vector-icons/Ionicons';
+let id = 0;
 
-export class Map extends Component {
-    static defaultProps = {
-        mapType: 'standard',
-        showsUserLocation: false,
-        followUserLocation: false,
-    };
-
-    static propTypes = {
-        mapType: React.PropTypes.oneOf(['standard', 'satellite', 'hybrid']),
-        // mapStyle: View.PropTypes.style,
-        showsUserLocation: React.PropTypes.bool.isRequired,
-        followUserLocation: React.PropTypes.bool.isRequired,
-    };
+class mylocation extends Component {
 
     constructor() {
         super();
         this.state = {
             isFirstLoad: true,
             mapRegion: undefined,
+            // mapRegionInput: ,
             annotations: [],
+            markers: [],
+            events: [],
         };
     }
 
-    _getAnnotations(region) {
+
+    makeEvent(e, name) {
+        return {
+            id: id++,
+            name,
+            data: e.nativeEvent ? e.nativeEvent : e,
+        };
+    }
+
+    recordEvent(name) {
+        return e => {
+            const { events } = this.state;
+            this.setState({
+                events: [
+                    this.makeEvent(e, name),
+                    ...events.slice(0, 10),
+                ],
+            });
+        };
+    }
+
+    render() {
+        return (
+            <View>
+                <MapView
+                    mapTyle = "standard"
+                    style = {styles.map}
+                    showsUserLocation = {true}
+                    followUserLocation = {true}
+                    onPress={this.recordEvent('Map::onPress')}
+                >
+                    {this.state.markers.map(marker => (
+                        <MapView.Marker
+                            coordinate={marker.latlng}
+                            title={'uygjuyguy'}
+                            description={marker.description}
+                        />
+                    ))}
+                </MapView>
+
+
+            </View>
+        )
+    }
+
+    ssss() {
+        // alert("dddd");
+        console.log("ddddd");
+    }
+    _onRegionChange(region) {
+        this.setState({
+            mapRegionInput: region,
+        });
+    }
+
+    _onRegionChangeComplete(region) {
+        if (this.state.isFirstLoad) {
+            this.setState({
+                // mapRegionInput: region,
+                annotations: this._getAnnotations(region),
+                isFirstLoad: false,
+            });
+        }
+    }
+
+    _getAnnotations(region): Annotations {
         return [{
             longitude: region.longitude,
             latitude: region.latitude,
@@ -39,61 +97,10 @@ export class Map extends Component {
         }];
     }
 
-    _onRegionChangeComplete(region) {
-        if (this.state.isFirstLoad) {
-            this.setState({
-                annotations: this._getAnnotations(region),
-                isFirstLoad: false,
-            });
-        }
-    }
 
-    render() {
-        return (
-            <View>
-                <MapView
-                    style={this.props.mapStyle}
-                    mapType={this.props.mapType}
-                    showsUserLocation={this.props.showsUserLocation}
-                    followUserLocation={this.props.followUserLocation}
-                    onRegionChangeComplete={(region) => this._onRegionChangeComplete(region)}
-                    region={this.state.mapRegion}
-                    annotations={this.state.annotations}/>
-            </View>
-        )
-    }
+
 }
 
-export default class extends Component {
-    constructor() {
-        super();
-        this.state = {
-            showGeo: false
-        };
-    }
-
-    componentDidMount() {
-        StatusBar.setBarStyle(0);
-    }
-
-    _getLocation() {
-        this.setState({
-            showGeo: true
-        })
-    }
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <Map mapTyle="standard" mapStyle={styles.map} showsUserLocation={this.state.showGeo}
-                     followUserLocation={this.state.showGeo}></Map>
-                <TouchableHighlight underlayColor="#00bd03" style={styles.btn} onPress={() => this._getLocation()}>
-                    <Text style={styles.btnText}><Icon size={18} name="md-navigate"> </Icon> Find my location</Text>
-                </TouchableHighlight>
-            </View>
-        )
-    }
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -101,8 +108,10 @@ const styles = StyleSheet.create({
         paddingTop: 60
     },
     map: {
+        marginTop:64,
         width: Util.size.width,
-        height: Util.size.height - 120
+        height: Util.size.height - 64
+        // margin: 0
     },
     btn: {
         backgroundColor: "#00a803",
@@ -121,4 +130,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = Map;
+module.exports = mylocation;

@@ -72,7 +72,6 @@ class Index_two extends Component {
                         style={{flex:1}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
-                        renderHeader={this.renderHeader.bind(this)}
                     />
                 </View>
 

@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import myInfo from './myinfo'
 import aboutus from './aboutus'
+import myLocation from './mylocation'
 
 import {
     AppRegistry,
@@ -32,7 +33,7 @@ class Index_three extends Component {
         if (info == '关于') {
             nextPage = aboutus;
         } else if (info == '我的位置'){
-            nextPage = myInfo;
+            nextPage = myLocation;
         } else  {
             nextPage = myInfo;
         }

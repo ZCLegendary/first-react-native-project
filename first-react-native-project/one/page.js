@@ -13,14 +13,15 @@ import {
     Image,
     ScrollView,
     ListView,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl
 } from 'react-native';
 
 import videoDetail from './videoDetail'
 import musicDetail from './musicDetail'
 
 var video_url = "http://baobab.wandoujia.com/api/v1/videos?start=0&num=10&categoryName=旅行&strategy=shareCount";
-var music_url = "http://mobile.ximalaya.com/mobile/discovery/v2/category/keyword/albums?calcDimension=hot&categoryId=2&device=iPhone&keywordId=115&pageId=1&pageSize=20&statEvent=pageview%2Fcategory%40%E9%9F%B3%E4%B9%90&statModule=%E9%9F%B3%E4%B9%90&statPage=tab%40%E5%8F%91%E7%8E%B0_%E5%88%86%E7%B1%BB&status=0&version=5.4.33";
+var music_url = "http://mobile.ximalaya.com/mobile/discovery/v2/category/metadata/albums?calcDimension=hot&categoryId=2&device=iPhone&metadatas=73%3A567&pageId=1&pageSize=20&status=0&version=5.4.33";
 
 class page extends Component {
 
@@ -32,7 +33,8 @@ class page extends Component {
         this.state = {
             dataSource_video: data_source,
             dataSource_music: data_source,
-            loaded: false
+            loaded: false,
+            isRefreshing: false
         }
     }
 
@@ -84,7 +86,15 @@ class page extends Component {
                             style={{flex:1}}
                             dataSource={this.state.dataSource_video}
                             renderRow={this.renderRow_video.bind(this)}
+                            refreshControl={
+                             <RefreshControl
+                                 refreshing={this.state.isRefreshing}
+                                 onRefresh={this._onRefresh}
+                                 tintColor="gray"
+                                 title = 'loading...'
+                                 progressBackgroundColor="gray"/>}
                         />
+
                     </ScrollView>
 
 
@@ -109,6 +119,25 @@ class page extends Component {
                 </View>
             )
         }
+    }
+
+
+    //refresh
+    refreshVideoData() {
+        this.setState({isRefreshing: true});
+        alert("嘻嘻嘻");
+    }
+
+    _onRefresh() {
+        this.setState({isRefreshing: true});
+        setTimeout(() => {
+            // 准备下拉刷新的5条数据
+
+
+            this.setState({
+                isRefreshing: false,
+            });
+        }, 5000);
     }
 
 
