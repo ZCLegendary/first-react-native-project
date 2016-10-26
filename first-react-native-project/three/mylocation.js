@@ -7,7 +7,7 @@ import React, {Component} from 'react';
 import {Image, StatusBar, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import Util from '../Util';
 import MapView from 'react-native-maps';
-// import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 let id = 0;
 
 class mylocation extends Component {

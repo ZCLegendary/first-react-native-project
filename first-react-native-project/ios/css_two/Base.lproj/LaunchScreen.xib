@@ -12,14 +12,20 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="powered by ChuangZhang" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgR-pm-Xrp">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="powered by ChuangZhang" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgR-pm-Xrp">
                     <frame key="frameInset" minX="84" minY="567" width="207" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="Se7-0c-Lu1"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="IMG_0825.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="STa-in-abl">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="IMG_0825.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="STa-in-abl">
                     <frame key="frameInset" minX="67" minY="84" width="240" height="381"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="380" id="8sh-h0-Ke4"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -28,7 +34,6 @@
                 <constraint firstAttribute="trailing" secondItem="lgR-pm-Xrp" secondAttribute="trailing" constant="84" id="N3F-R2-jCq"/>
                 <constraint firstItem="lgR-pm-Xrp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="84" id="YsR-TD-iSN"/>
                 <constraint firstAttribute="trailing" secondItem="STa-in-abl" secondAttribute="trailing" constant="60" id="eGP-N6-vvF"/>
-                <constraint firstItem="lgR-pm-Xrp" firstAttribute="top" secondItem="STa-in-abl" secondAttribute="bottom" constant="102" id="k9j-9j-Vqw"/>
                 <constraint firstAttribute="bottom" secondItem="lgR-pm-Xrp" secondAttribute="bottom" constant="50" id="s2U-Ak-3KO"/>
                 <constraint firstItem="STa-in-abl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="tzI-gH-OqV"/>
             </constraints>

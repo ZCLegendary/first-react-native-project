@@ -3,6 +3,8 @@
  */
 import React, {Component} from 'react';
 import buy from './buy'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import {
     AppRegistry,
     StyleSheet,
@@ -78,7 +80,7 @@ class detail extends Component {
                 </View>
 
                 <View style={{marginTop:10}}>
-                    <Text style={{color: 'red', marginLeft:5, fontSize:17}}>{this.state.titleDataSource.title}</Text>
+                     <Text style={{color: 'red', marginLeft:5, fontSize:17}}>{this.state.titleDataSource.title}</Text>
                 </View>
 
                 <View style={{marginTop:10}}>

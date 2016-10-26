@@ -3,6 +3,9 @@
  */
 
 import React, {Component} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 import {
     AppRegistry,
     StyleSheet,
@@ -14,7 +17,7 @@ import NV1 from './one/page'
 import NV2 from './two/page_two'
 import NV3 from './three/page_three'
 
-var TabBarItemIOS = TabBarIOS.Item;
+var TabBarItemIOS = Icon.TabBarItemIOS;
 
 class tabbar extends Component {
 
@@ -35,9 +38,10 @@ class tabbar extends Component {
                 unselectedTintColor="black"
                 tintColor="navy"
             >
-                <TabBarItemIOS
+                <Icon.TabBarItemIOS
                     title="首页"
-                    name="mainTab"
+                    iconName="home"
+                    selectedIconName="home"
                     icon={require('./images/homePageSelected.png')}
                     accessibilityLabel="Blue Tab"
                     selected={this.state.selectedTab === 'mainTab'}
@@ -52,12 +56,13 @@ class tabbar extends Component {
                             title: '首页',
                             component: NV1,
                         }}/>
-                </TabBarItemIOS>
+                </Icon.TabBarItemIOS>
 
 
-                <TabBarItemIOS
-                    title="其他"
-                    name="otherTab"
+                <Icon.TabBarItemIOS
+                    title="买买"
+                    iconName="shopping-cart"
+                    selectedIconName="shopping-cart"
                     icon={require('./images/mySelected@2x.png')}
                     accessibilityLabel="other Tab"
                     selected={this.state.selectedTab === 'otherTab'}
@@ -69,18 +74,19 @@ class tabbar extends Component {
                     <NavigatorIOS
                         style={[styles.container,{flex : 1, marginTop : 0}]}
                         initialRoute={{
-                            title: '其他',
+                            title: '买买',
                             component: NV2,
                             translucent: false
                         }}
                         // translucent: false
                     />
-                </TabBarItemIOS>
+                </Icon.TabBarItemIOS>
 
 
-                <TabBarItemIOS
+                <Icon.TabBarItemIOS
                     title="我的"
-                    name="myTab"
+                    iconName="user"
+                    selectedIconName="user"
                     icon={require('./images/mySelected@2x.png')}
                     accessibilityLabel="my Tab"
                     selected={this.state.selectedTab === 'myTab'}
@@ -95,7 +101,7 @@ class tabbar extends Component {
                             title: '我的',
                             component: NV3,
                         }}/>
-                </TabBarItemIOS>
+                </Icon.TabBarItemIOS>
 
             </TabBarIOS>
 
