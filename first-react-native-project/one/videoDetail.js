@@ -24,6 +24,8 @@ class videoDetail extends Component {
     constructor(props) {
 
         super(props);
+
+
         back_image = props.backImage;
         play_url = props.playUrl;
         this.state = {

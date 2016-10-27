@@ -4,6 +4,9 @@
 import React, {Component} from 'react';
 
 import ScrollableTabView, {DefaultTabBar,} from 'react-native-scrollable-tab-view'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 import {
     AppRegistry,
     StyleSheet,
@@ -14,14 +17,25 @@ import {
     ScrollView,
     ListView,
     TouchableOpacity,
-    RefreshControl
+    RefreshControl,
+    TextInput,
+    AlertIOS
 } from 'react-native';
 
 import videoDetail from './videoDetail'
 import musicDetail from './musicDetail'
 
-var video_url = "http://baobab.wandoujia.com/api/v1/videos?start=0&num=10&categoryName=旅行&strategy=shareCount";
-var music_url = "http://mobile.ximalaya.com/mobile/discovery/v2/category/metadata/albums?calcDimension=hot&categoryId=2&device=iPhone&metadatas=73%3A567&pageId=1&pageSize=20&status=0&version=5.4.33";
+
+var video_head = "http://baobab.wandoujia.com/api/v1/videos?start=0&num=40&categoryName="
+var video_foot = "&strategy=shareCount"
+var inputText = "时尚"
+var video_url
+var music_url = "http://mobile.ximalaya.com/mobile/discovery/v2/category/metadata/albums?calcDimension=hot&categoryId=2&device=iPhone&metadatas=73%3A567&pageId=1&pageSize=40&status=0&version=5.4.33";
+
+var placeholder = "输入视频类型...";
+
+
+
 
 class page extends Component {
 
@@ -46,15 +60,35 @@ class page extends Component {
 
     // video data
     fetchData_video() {
-        fetch(video_url)
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData.data);
-                this.setState({
-                    dataSource_video: this.state.dataSource_video.cloneWithRows(responseData.videoList),
-                    loaded: true
-                })
-            }).done();
+
+        if (inputText == '生活' || inputText == '旅行' || inputText == '游戏' || inputText == '运动' || inputText == '音乐' || inputText == '创意' || inputText == '搞笑' || inputText == '时尚') {
+
+            this.setState({
+                loaded: false
+            })
+            video_url = video_head + inputText + video_foot;
+            fetch(video_url)
+                .then((response) => response.json())
+                .then((responseData) => {
+                    console.log(responseData.data);
+                    this.setState({
+                        dataSource_video: this.state.dataSource_video.cloneWithRows(responseData.videoList),
+                        loaded: true
+                    })
+                }).done();
+
+
+        } else {
+
+            AlertIOS.alert(
+                '提示信息',
+                '暂时只可输入生活,旅行,游戏,运动,音乐,创意,搞笑,时尚',
+                [
+                    {text: '确定', onPress: () => console.log('Bar Pressed!')},
+                ]
+            )
+            // alert('')
+        }
     }
 
     // music data
@@ -71,41 +105,65 @@ class page extends Component {
     }
 
 
+    getCurrentPage(page) {
+
+        // alert(page.i)
+        if (page.i == 0) {
+            placeholder = "输入视频类型..."
+        } else {
+            placeholder = "输入音乐类型..."
+        }
+    }
+
     render() {
 
         if (this.state.loaded) {
 
             return (
 
-                <ScrollableTabView
-                    style={{marginTop: 64}}
-                    renderTabBar={() => <DefaultTabBar />}
-                >
-                    <ScrollView tabLabel="Video" style={styles.tabView}>
-                        <ListView
-                            style={{flex:1}}
-                            dataSource={this.state.dataSource_video}
-                            renderRow={this.renderRow_video.bind(this)}
-                            refreshControl={
-                             <RefreshControl
-                                 refreshing={this.state.isRefreshing}
-                                 onRefresh={this._onRefresh}
-                                 tintColor="gray"
-                                 title = 'loading...'
-                                 progressBackgroundColor="gray"/>}
+                <View style={{flex:1}}>
+                    <View style={styles.header}>
+                        <TextInput
+                            style={styles.searchInput}
+                            returnKeyType="search"
+                            placeholder={placeholder}
+                            onChangeText={(text) => (inputText = text)}
                         />
 
-                    </ScrollView>
+                        <TouchableOpacity onPress={() => this.fetchData_video()}>
+                            <Icon
+                                name="search"
+                                size={26}
+                            />
+                        </TouchableOpacity>
+
+                    </View>
+
+                    <ScrollableTabView
+                        style={{marginTop: 0, flex:1}}
+                        onChangeTab = {(page) => this.getCurrentPage(page)}
+                        renderTabBar={() => <DefaultTabBar />}
+                    >
+                        <ScrollView tabLabel="Video" style={styles.tabView}>
+                            <ListView
+                                style={{flex:1}}
+                                dataSource={this.state.dataSource_video}
+                                renderRow={this.renderRow_video.bind(this)}
+                            />
+
+                        </ScrollView>
 
 
-                    <ScrollView tabLabel="Music" style={styles.tabView}>
-                        <ListView
-                            style={{flex:1}}
-                            dataSource={this.state.dataSource_music}
-                            renderRow={this.renderRow_music.bind(this)}
-                        />
-                    </ScrollView>
-                </ScrollableTabView>
+                        <ScrollView tabLabel="Music" style={styles.tabView}>
+                            <ListView
+                                style={{flex:1}}
+                                dataSource={this.state.dataSource_music}
+                                renderRow={this.renderRow_music.bind(this)}
+                            />
+                        </ScrollView>
+                    </ScrollableTabView>
+
+                </View>
             );
 
         } else {
@@ -138,6 +196,12 @@ class page extends Component {
                 isRefreshing: false,
             });
         }, 5000);
+    }
+
+    onEndReach() {
+
+        console.log("草泥马~~~")
+
     }
 
 
@@ -190,6 +254,7 @@ class page extends Component {
         // alert("video");
         this.props.navigator.push({
             title: info.title,
+
             passProps: {
                 playUrl: info.playUrl,
                 backImage: info.coverForDetail,
@@ -198,6 +263,7 @@ class page extends Component {
                 description: info.description
             },
             component: videoDetail,
+            navigationBarHidden: false
         });
     }
 
@@ -205,6 +271,7 @@ class page extends Component {
     onPressMusicItem(info) {
         this.props.navigator.push({
             title: '专辑详情',
+            navigationBarHidden: false,
             passProps: {
                 id: info.id,
                 albumId: info.albumId,
@@ -227,7 +294,7 @@ var styles = StyleSheet.create({
     },
 
     tabView: {
-        flex: 1,
+        flex:1,
         padding: 10,
         backgroundColor: 'rgba(0,0,0,0.01)',
     },
@@ -261,7 +328,56 @@ var styles = StyleSheet.create({
         marginTop: 5,
         marginLeft: 5,
         color: 'gray'
-    }
+    },
+
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 0.5,
+        marginTop: 20
+    },
+
+    searchInput: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        width: 200,
+        margin: 6,
+        padding: 10,
+        backgroundColor: 'rgb(245, 246, 247)',
+        borderRadius: 2,
+    },
+
+    searchIcon: {
+        width: 20,
+        height: 20,
+    },
+
+    scanIcon: {
+        width: 30,
+        height: 30,
+    },
+
+    searchPlaceholder: {
+        marginLeft: 10,
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'gray'
+    },
+    input: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        width: 200,
+        margin: 6,
+        padding: 10,
+        backgroundColor: 'rgb(245, 246, 247)',
+        borderRadius: 2,
+    },
+
 })
 
 

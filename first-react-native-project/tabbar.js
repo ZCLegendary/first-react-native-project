@@ -50,8 +50,11 @@ class tabbar extends Component {
                             selectedTab: 'mainTab',
                         });
                     }}>
+
+
                     <NavigatorIOS
                         style={[styles.container,{flex : 1, marginTop : 0}]}
+                        navigationBarHidden={true}
                         initialRoute={{
                             title: '首页',
                             component: NV1,

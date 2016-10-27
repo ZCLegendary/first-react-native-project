@@ -74,6 +74,8 @@ class Index_two extends Component {
                         style={{flex:1}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
+                        onEndReached={this.onEndReach.bind(this)}
+                        onEndReachedThreshold={40}
                     />
                 </View>
 
@@ -89,6 +91,11 @@ class Index_two extends Component {
 
             )
         }
+    }
+
+
+    onEndReach() {
+        alert("ddddd")
     }
 
     renderRow(rowData) {
