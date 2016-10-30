@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 
 import ScrollableTabView, {DefaultTabBar,} from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as WeChat from 'react-native-wechat';
 
 
 import {
@@ -43,6 +44,7 @@ class page extends Component {
     constructor(props) {
 
         super(props);
+        WeChat.registerApp('wx865f1046cbd0ee5b');
         var data_source = new ListView.DataSource({rowHasChanged: ((r1, r2) => r1 !== r2)});
         this.state = {
             dataSource_video: data_source,

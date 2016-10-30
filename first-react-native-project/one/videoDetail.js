@@ -4,6 +4,8 @@
 import React, {Component} from 'react';
 import {BlurView, VibrancyView} from 'react-native-blur';
 import Video from 'react-native-video';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as WeChat from 'react-native-wechat';
 import {
     AppRegistry,
     StyleSheet,
@@ -24,7 +26,7 @@ class videoDetail extends Component {
     constructor(props) {
 
         super(props);
-
+        
 
         back_image = props.backImage;
         play_url = props.playUrl;
@@ -76,7 +78,7 @@ class videoDetail extends Component {
 
                     <View style={{marginTop:64}}>
 
-                        <View style={{flex:1}}>
+                        <View >
                             <Image style={{height:280}} source={{uri: back_image}}>
                                 <TouchableOpacity onPress={() => this.onPressPlayVideo(play_url)}>
                                     <Image style={{height:50,width:50,alignSelf:'center',marginTop:120}}
@@ -84,17 +86,28 @@ class videoDetail extends Component {
                                 </TouchableOpacity>
                             </Image>
                         </View>
-                        <View style={{flex:1.2}}>
+                        <View >
                             <Image style={{height:350}} source={{uri: back_image}}>
                                 <BlurView blurType="light" style={{height:350}}>
                                     <Text style={styles.title_text}>{this.props.title} | {this.props.categoty}</Text>
                                     <View style={styles.line_view}></View>
                                     <Text style={[styles.title_text, {marginRight:20}]}>{this.props.description}</Text>
-                                </BlurView>
-                            </Image>
+
+                                    <View style={{marginTop:60, marginLeft:17, width:130}}>
+                                        <Icon.Button name="wechat" backgroundColor="green"
+                                                     onPress={() => this.shareToWechat(play_url, this.props.title, this.props.description, back_image)}>
+                                            分享到微信
+                                        </Icon.Button>
+
                         </View>
-                    </View>
-                );
+
+                    </BlurView>
+            </Image>
+            </View>
+            </
+                View >
+            )
+                ;
 
             case 1:
 
@@ -157,6 +170,31 @@ class videoDetail extends Component {
     onPressPlayVideo() {
         this.setState({pageIndex: 1});
     };
+
+
+    shareToWechat(url, title, description, thumbImage) {
+
+        // alert(url, title, description, thumbImage);
+        WeChat.isWXAppInstalled()
+            .then((isInstalled) => {
+                if (isInstalled) {
+                    WeChat.shareToTimeline({
+                            title: title,
+                            description: description,
+                            thumbImage: thumbImage,
+                            type: 'news',
+                            webpageUrl: url
+                        })
+                        .catch((error) => {
+                            // ToastShort(error.message);
+                        });
+                } else {
+                    // ToastShort('没有安装微信软件，请您安装微信之后再试');
+                }
+            });
+        // WeChat.removeAllListeners();
+
+    }
 
     setModalVisible(visible) {
         this.setState({modalVisible: visible});

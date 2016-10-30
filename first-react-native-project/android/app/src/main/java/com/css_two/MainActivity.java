@@ -1,6 +1,7 @@
 package com.css_two;
 
 import com.facebook.react.ReactActivity;
+import com.theweflex.react.WeChatPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
